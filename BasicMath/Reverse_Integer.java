@@ -53,3 +53,12 @@ class Solution {
         return r;
     }
 }
+
+
+/*
+
+overflow case:
+
+For x = 1534236469, reversed value > 2,147,483,647.
+At some step, (newR - rem)/10 != r, so it returns 0.
+*/
