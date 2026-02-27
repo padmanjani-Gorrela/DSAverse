@@ -17,6 +17,20 @@ One way is to double the array by pushing all the elements of array at the back 
 The preferred way to handle circular array is to use the modulus operator that will help in traversing the array in a circular manner. This will double the array hypothetically saving the extra space
 */
 
-//Brute:
 class Solution{
+  public int[] nextGreaterElements(int[] arr){
+    int n = arr.length;
+    int[] nge = new int[n];
+    Stack<Integer> st = new Stack<>();
+    for(int i = 2*n - 1; i >= 0;i--){
+      while(!st.isEmpty() && st.peek() <= arr[i % n]){
+        st.pop();
+      }
+      nge[i] = st.isEmpty() ? -1 : st.peek();
+      st.push(arr[i % n]);
+    }
+    return nge;
+  }
+}
+      
   
