@@ -52,3 +52,52 @@ class Solution{
     return new int[]{cnt, maxPorfit};
   }
 }
+
+
+//Another variant when constraints are hard and tkaing more time use DSU
+import java.util.*;
+
+class Solution {
+    
+    int find(int[] parent, int x){
+        if(parent[x] == x) return x;
+        return parent[x] = find(parent, parent[x]); // path compression
+    }
+    public ArrayList<Integer> jobSequencing(int[] deadline, int[] profit) {
+        int n = deadline.length;
+        int[][] jobs = new int[n][2];
+        for(int i = 0; i < n; i++){
+            jobs[i][0] = deadline[i];
+            jobs[i][1] = profit[i];
+        }
+        // sort by profit descending
+        Arrays.sort(jobs, (a, b) -> b[1] - a[1]);
+        int maxDeadline = 0;
+        for(int d : deadline){
+            maxDeadline = Math.max(maxDeadline, d);
+        }
+        // DSU parent array
+        int[] parent = new int[maxDeadline + 1];
+        for(int i = 0; i <= maxDeadline; i++){
+            parent[i] = i;
+        }
+        int count = 0;
+        int maxProfit = 0;
+        
+        for(int i = 0; i < n; i++){
+            int availableSlot = find(parent, jobs[i][0]);
+            if(availableSlot > 0){
+                count++;
+                maxProfit += jobs[i][1];
+                
+                // mark slot as filled → union with previous slot
+                parent[availableSlot] = find(parent, availableSlot - 1);
+            }
+        }
+        
+        ArrayList<Integer> res = new ArrayList<>();
+        res.add(count);
+        res.add(maxProfit);
+        return res;
+    }
+}
