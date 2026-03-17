@@ -1,0 +1,35 @@
+/*
+Consider a scenario where a teacher wants to distribute cookies to students, with each student receiving at most one cookie.
+Given two arrays, student and cookie, the ith value in the Student array describes the minimum size of cookie that the ith student can be assigned. The jth value in the Cookie array represents the size of the jth cookie. If Cookie[j] >= Student[i], the jth cookie can be assigned to the ith student.
+Maximize the number of students assigned with cookies and output the maximum number.
+
+Example 1
+Input : student = [1, 2, 3] , cookie = [1, 1]
+Output :1
+Explanation : You have 3 students and 2 cookies.
+The minimum size of cookies required for students are 1 , 2 ,3.
+You have 2 cookies both of size 1, So you can assign the cookie only to student having minimum cookie size 1.
+So your answer is 1.
+*/
+
+class Solution{
+  public int AssignCookies(int[] greed, int[] cookie){
+    Arrays.sort(greed);
+    Arrays.sort(cookie);
+    int i = 0,j = 0;
+    int cnt = 0;
+    int n = greed.length;
+    int m = cookie.length;
+    while(i < n && j < m){
+      if(cookie[j] >= greed[i]){
+       cnt++;
+        i++;
+        j++;
+      }
+      else{
+        j++;
+      }
+    }
+    return cnt;
+  }
+}
